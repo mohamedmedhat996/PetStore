@@ -1,0 +1,15 @@
+    {% extends 'Base.html' %}
+    {% block body %}
+        <h1>{{ category.category }}</h1>
+        {% for kind in kinds %}
+            <a href="/search/{{ category.pk }}/{{ kind.pk }}/"><h1>{{ kind.kind }}</h1></a>
+        {% endfor %}
+    {% endblock %}
+    <div id="footer" style="position: absolute; width: 100% ;bottom: 0">
+
+        <div id="footnote">
+            <div class="section">
+                &copy; 2018 <a href="index.html">Petshop</a>. All Rights Reserved.
+            </div>
+        </div>
+    </div>

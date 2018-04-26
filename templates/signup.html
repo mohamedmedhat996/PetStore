@@ -1,0 +1,66 @@
+{% extends 'Base.html' %}
+{% load static %}
+{% block body %}
+
+    <head>
+        <style> input {
+            margin-bottom: 10px;
+            width: 500px;
+            height: 30px;
+
+            display: block;
+
+        }
+input,
+input::-webkit-input-placeholder {
+    font-size: 16px;
+    line-height: 3;
+}
+        label {
+            font-size: 20px;
+        }
+                       .fon{
+              	font-weight: normal;
+	font-family: 'Paprika', cursive;;
+
+
+	font-size: 25px;
+	line-height: 29px;
+	display: inline-block;
+	padding-top: 10px;
+	padding-bottom: 2px;
+	margin-bottom: 3px;
+
+            }
+
+        </style>
+    </head>
+    <div class=" container ">
+
+        <div style="margin :10% 22%;width:75%;text-align:left">
+            <h2>Join Us...!</h2>
+            <h3 style="color: red">{{ error }}</h3>
+
+            <form method="post">
+                {% csrf_token %}
+                <h3 class="fon">*User name:</h3>
+                <input name="username" type="text" placeholder="enter username" required>
+                <h3 class="fon">*First name:</h3>
+                <input name="first_name" type="text" placeholder="enter first name" required>
+                <h3 class="fon">*Last name:</h3>
+                <input name="last_name" type="text" placeholder="enter last name" required>
+                <h3 class="fon">*Age:</h3>
+                <input name="age" type="text" placeholder="years" required>
+                <h3 class="fon">*E-mail:</h3>
+                <input name="email" type="email" placeholder="enter e-mail" required>
+                <h3 class="fon">*Enter password:</h3>
+                <input name="password" type="password" placeholder="enter password" required>
+                <h3 class="fon">*Confirm password :</h3>
+                <input name="password_conf" type="password" placeholder="confirm password" required>
+                <br><br>
+                <input type="submit" value="Sign UP" style=" background-color:#4585b7 ;border: none; font-size: 20px;">
+            </form>
+        </div>
+    </div>
+
+{% endblock %}

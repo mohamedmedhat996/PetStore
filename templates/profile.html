@@ -1,0 +1,114 @@
+{% extends 'Base.html' %}
+{% load static %}
+{% block body %}
+    <head>
+        <style>
+            input {
+
+                width: 500px;
+                height: 30px;
+            }
+
+            .payments {
+                margin-bottom: 5px;
+            }
+            h2 {
+                font-size: 35px;
+	            line-height: 39px;
+            }
+            .font {
+              	font-weight: normal;
+	            font-family: 'Paprika', cursive;;
+                color: #4585b7;
+                font-size: 25px;
+                line-height: 29px;
+                display: inline-block;
+                padding-top: 10px;
+                padding-bottom: 2px;
+                margin-bottom: 3px;
+            }
+            .fon{
+              	font-weight: normal;
+                font-family: 'Paprika', cursive;;
+                font-size: 25px;
+                line-height: 29px;
+                display: inline-block;
+                padding-top: 10px;
+                padding-bottom: 2px;
+                margin-bottom: 3px;
+            }
+            input,
+            input::-webkit-input-placeholder {
+                font-size: 16px;
+                line-height: 3;
+            }
+        </style>
+    </head>
+    <div class="container" style="margin-top:2% ">
+        <div class="row">
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+
+                <table>
+                    <h2>Personal Information:</h2>
+                    <tr><td><h3 class="font">User Name :</h3></td><td><h3 class="fon"> {{ user.username }}</h3></td></tr>
+                    <tr><td><h3 class="font">First name : </h3></td><td><h3 class="fon"> {{ user.first_name }} </h3></td></tr>
+                    <tr><td><h3 class="font">Last name : </h3></td><td><h3 class="fon"> {{ user.last_name }} </h3></td></tr>
+                    <tr><td><h3 class="font">Age :</h3></td><td><h3 class="fon"> {{ user.age }} </h3></td></tr>
+                    <tr><td><h3 class="font">E-mail :</h3></td><td><h3 class="fon"> {{ user.email }}</h3></td></tr>
+                </table>
+
+                <div class="payments">
+
+                    <h2>payment methods : </h2>
+                        {% if PaymentMethods %}
+                        {% for method in PaymentMethods %}
+                        <table>
+                            <tr>
+                                <td><h3 class="font"> {{ method.type }} :</h3></td>
+                                <td><h3 class="fon"> {{ method.number }}</h3></td>
+                            </tr>
+                        </table>
+                        <form action="/home/addpaymentmethod/{{ method.number }}/" method="get">
+                            {% csrf_token %}
+                            <button type="submit" style="color: red;">delete payment method</button>
+                        </form>
+                        {% endfor %}
+                        {% else %}
+                        <table>
+                            <tr><td>nothing to show</td></tr>
+                        </table>
+                        {% endif %}
+                </div>
+
+                <h2>Add New payment method : </h2>
+                <h3 style="color: red">{{ payment_error }}</h3>
+                <form action="/home/addpaymentmethod/1/" method="post">
+                    {% csrf_token %}
+                    <label><h3 class="fon">*type</h3></label><br>
+                    <input name="type" placeholder=" Enter payment type here ..." type="text" required><br>
+                    <label><h3 class="fon">*Number</h3></label><br>
+                    <input name="number" placeholder="Enter payment Number here... " type="number" required>
+                    <input type="submit" value="add" style="background-color: #4585B7 ;border: none; ">
+                </form>
+            </div>
+
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"  style="margin-top: 7%">
+                <div style="margin: 7px;border: 4px solid #4585B7;display: inline-block">
+                    <img src=" {% static "images/gg.jpg" %}" width="200" height="200" style="display: block">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="bottom_block" style="position: relative">
+    <div class="container_12">
+        <div class="grid_6">
+            <h2> Any Questions </h2>
+            <br>
+             <div class="cont"> Call Us Free: <span>+1 800 559 6580</span> <span>+1 800 559 6580</span> <span>+1 800 559 6580</span> </div>
+
+        </div>
+
+    </div>
+</div>
+{% endblock %}

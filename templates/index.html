@@ -1,0 +1,335 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Pet Club</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="{% static "css/bootstrap.css" %}" type="text/css">
+    <link rel="icon" href="{% static "neww/images/favicon.ico" %}">
+    <link rel="shortcut icon" href="{% static "neww/images/favicon.ico" %}">
+    <link rel="stylesheet" href="{% static "neww/css/style.css" %}">
+    <link rel="stylesheet" href="{% static "neww/css/slider.css" %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <style>
+
+        .image {
+            position: relative;
+            display: inline-block;
+        }
+
+        .overlay {
+            display: none;
+        }
+
+        .image:hover .overlay {
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, .5);
+            position: absolute;
+            top: 0;
+            left: 0;
+            text-align: center;
+            display: inline-block;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+        }
+
+        img {
+            vertical-align: top;
+        }
+
+        h4 {
+            color: #cccccc;
+            font-weight: bold;
+
+        }
+
+        input {
+            display: inline-block;
+            margin-left: 5px;
+            margin-right: 2px;
+
+        }
+        input,
+        input::-webkit-input-placeholder {
+            font-size: 16px;
+            line-height: 3;
+        }
+
+        h3 {
+            display: inline-block;
+            color: #0f0f0f;
+            font-weight: bold;
+            font-size: 20px;
+        }
+
+        .cc {
+            background-color: #4585B7;
+            border: none;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+        }
+
+        .font {
+            display: block;
+            font-size: 20px;
+            color: white;
+            font-weight: bold;
+
+        }
+
+        .my_grid {
+            margin-top: 5%;
+        }
+
+    </style>
+
+
+    <script src="{% static "neww/js/jquery.js" %}"></script>
+    <script src="{% static "neww/js/jquery-migrate-1.1.1.js" %}"></script>
+    <script src="{% static "neww/js/superfish.js" %}"></script>
+    <script src="{% static "neww/js/jquery.carouFredSel-6.1.0-packed.js" %}"></script>
+    <script src="{% static "neww/js/jquery.equalheights.js" %}"></script>
+    <script src="{% static "neww/js/jquery.easing.1.3.js" %}"></script>
+    <script src="{% static "neww/js/tms-0.4.1.js" %}"></script>
+    <script src="{% static "neww/js/jquery.ui.totop.js" %}"></script>
+    <script>
+        $(window).load(function () {
+            $('.slider')._TMS({
+                show: 0,
+                pauseOnHover: false,
+                prevBu: '.prev',
+                nextBu: '.next',
+                playBu: false,
+                duration: 800,
+                preset: 'fade',
+                pagination: true, //'.pagination',true,'<ul></ul>'
+                pagNums: false,
+                slideshow: 8000,
+                numStatus: false,
+                banners: true,
+                waitBannerAnimation: false,
+                progressBar: false
+            })
+        });
+        $(window).load(function () {
+            $('.carousel1').carouFredSel({
+                auto: false,
+                prev: '.prev',
+                next: '.next',
+                width: 960,
+                items: {
+                    visible: {
+                        min: 3,
+                        max: 3
+                    },
+                    height: 'auto',
+                    width: 300,
+                },
+                responsive: true,
+                scroll: 1,
+                mousewheel: false,
+                swipe: {
+                    onMouse: true,
+                    onTouch: true
+                }
+            });
+        });
+        jQuery(document).ready(function () {
+            $().UItoTop({
+                easingType: 'easeOutQuart'
+            });
+        });
+    </script>
+    <!--[if lt IE 9]>
+<script src="js/html5shiv.js"></script>
+<link rel="stylesheet" media="screen" href="css/ie.css">
+<![endif]-->
+</head>
+<body class="page1">
+<header>
+    <div class="container_12">
+        <div class="grid_12">
+            <h1><a href="/index/"><img src="{% static "neww/images/vv.png" %}" alt=""></a></h1>
+            <div class="menu_block">
+                <nav>
+                    {% if user.is_active %}
+                    <ul class="sf-menu">
+                        <li class=""><a href="/index/">Home</a></li>
+                        <li class=""><a href="/index/">About us</a></li>
+                        <li class=""><a href="/home/profile/">{{ user.username }}</a></li>
+                        <li class=""><a href="/home/logout/">log out</a></li>
+                        <li class=""><a href="/contactus/">contact us</a></li>
+                    </ul>
+                    {% else %}
+                    <ul class="sf-menu">
+                        <li class=""><a href="/index/">Home</a></li>
+                        <li class=""><a href="/index/">About us</a></li>
+                        <li class=""><a href="/home/login/">Login</a></li>
+                        <li class=""><a href="/home/signup">Sign up</a></li>
+                        <li class=""><a href="/contactus/">contact us</a></li>
+                    </ul>
+                    {% endif %}
+                </nav>
+                <div class="clear"></div>
+            </div>
+            <div class="clear"></div>
+        </div>
+    </div>
+</header>
+
+<div class="top_block">
+    <div class="slider-relative">
+        <div class="slider-block">
+            <div class="slider">
+                <ul class="items">
+                    <li><img src="{% static "neww/images/slide.jpg" %}" alt="">
+                        <div class="banner">They Need Your <span>Love</span> and <i>Care</i>
+                            <p>It is so easy to make them happy</p>
+                        </div>
+                    </li>
+                    <li><img src="{% static "neww/images/slide1.jpg" %}" alt="">
+                        <div class="banner">They Need Your <span>Love</span> and <i>Care</i>
+                            <p>It is so easy to make them happy</p>
+                        </div>
+                    </li>
+                    <li><img src=" {% static "neww/images/slide2.jpg" %} " alt="">
+                        <div class="banner">They Need Your <span>Love</span> and <i>Care</i>
+                            <p>It is so easy to make them happy</p>
+                        </div>
+                    </li>
+                    <li><img src="{% static "neww/images/slide3.jpg" %}" alt="">
+                        <div class="banner">They Need Your <span>Love</span> and <i>Care</i>
+                            <p>It is so easy to make them happy</p>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="content page1">
+    <div class="container_12">
+        <div class="grid_12">
+            <a href="#" class="next"></a>
+            <a href="#" class="prev"></a>
+            <h2>Find a Pet</h2>
+            <form action="/search/" method="get">
+                <h3 style=""> Age From :</h3>
+                <input name="s_age" placeholder="years" type="number" style="width:60px; height: 30px">
+
+                <h3> To :</h3>
+                <input name="e_age" placeholder="years" type="number" style="width: 60px; height: 30px">
+
+                <h3>Category :</h3>
+                <select name="category" style="width: 400px; height: 40px ;font-size: 16px; color: #0f0f0f">
+                    <option value="please Select a Category" disabled>please Select a Category </option>
+                    {% for category in categories %}
+                        <option value="{{ category.category }}" name="category">{{ category.category }}</option>
+                    {% endfor %}
+                </select>
+
+                <button type="submit" style="height: 40px; background-color: #4585b7"><i class="fa fa-search"></i>
+                </button>
+            </form>
+        </div>
+
+        <div class="clear"></div>
+
+        <div class="my_grid">
+            {% for pet in Pets %}
+            <div class="col-lg-3 col-md-4 col-sm-6 col-xs-6">
+                <div style="margin: 4px;display: inline-block ; ">
+                    <div class="image">
+                        <img src="{{ pet.image }}" alt="" width="200" height="200"">
+                        <a href="/search/details/{{ pet.pk }}">
+                            <div class="overlay">
+                                <h3 class="font" >{{ pet.category.category }}</h3><br>
+                                <h3 class="font">{{ pet.kind.kind }}</h3><br>
+                                <h3 class="font"> {{ pet.age }}</h3><br>
+                                <button class="cc">View details</button>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+    </div>
+</div>
+
+<div class="content page1">
+  <div class="container_12">
+    <div class="grid_12"> <a href="#" class="next"></a><a href="#" class="prev"></a>
+      <h2>Pets for Adoption</h2>
+    </div>
+    <div class="clear"></div>
+    <ul class="carousel1">
+      <li class="grid_4"> <img src="{% static "neww/images/carousel1_img1.jpg" %}" alt="" class="img_inner fleft">
+        <div class="extra_wrapper pad1">
+          <p class="col2"><a href="#">Praesent quis orcidiam viverralopr </a></p>
+          Raes quis orci eget diam viverralopr con equat. Fusce sagit quam ihui hyhy kolo opirlo pulvinarhjkjo. </div>
+      </li>
+      <li class="grid_4"> <img src="{% static "neww/images/carousel1_img2.jpg" %}" alt="" class="img_inner fleft">
+        <div class="extra_wrapper pad1">
+          <p class="col2"><a href="#">Aeraesent quis hoj rcieget diam iverral.</a></p>
+          Loaesent quis orci diam viverralopr con equat. Lusce sagittis quam ihui hyhy opir pulvinarhjk velit. </div>
+      </li>
+      <li class="grid_4"> <img src="{% static "neww/images/carousel1_img3.jpg" %}" alt="" class="img_inner fleft">
+        <div class="extra_wrapper pad1">
+          <p class="col2"><a href="#">Tyeraesent quis hojo rcieget iam iverralji.</a></p>
+          Eroaesent quis orci ediam viverralopr con jikjulo poiu retyulo hyk equat. Usce sagittis ki quam ihui hyhy opirp. </div>
+      </li>
+      <li class="grid_4"> <img src="{% static "neww/images/carousel1_img4.jpg" %}" alt="" class="img_inner fleft">
+        <div class="extra_wrapper pad1">
+          <p class="col2"><a href="#">Aeraesent quis hoj rcieget diam iverral.</a></p>
+          Loaesent quis orci diam viverralopr con equat. Lusce sagittis quam ihui hyhy opir pulvinarhjk velit. </div>
+      </li>
+      <li class="grid_4"> <img src="{% static "neww/images/carousel1_img5.jpg" %}" alt="" class="img_inner fleft">
+        <div class="extra_wrapper pad1">
+          <p class="col2"><a href="#">Aeraesent quis hoj rcieget diam iverral.</a></p>
+          Loaesent quis orci diam viverralopr con equat. Lusce sagittis quam ihui hyhy opir pulvinarhjk velit. </div>
+      </li>
+      <li class="grid_4"> <img src="{% static "neww/images/carousel1_img6.jpg" %}" alt="" class="img_inner fleft">
+        <div class="extra_wrapper pad1">
+          <p class="col2"><a href="#">Aeraesent quis hoj rcieget diam iverral.</a></p>
+          Loaesent quis orci diam viverralopr con equat. Lusce sagittis quam ihui hyhy opir pulvinarhjk velit. </div>
+      </li>
+    </ul>
+  </div>
+</div>
+
+
+
+<div class="bottom_block">
+    <div class="container_12">
+        <div class="grid_6">
+            <h2> Any Questions </h2>
+            <br>
+             <div class="cont"> Call Us Free: <span>+1 800 559 6580</span> <span>+1 800 559 6580</span> <span>+1 800 559 6580</span> </div>
+
+        </div>
+
+    </div>
+</div>
+
+<footer>
+    <div class="container_12">
+        <div class="grid_12">
+            <div class="socials"><a href="#"></a> <a href="#"></a> <a href="#"></a> <a href="#"></a></div>
+            <p>Pet Store&copy; 2045 | <a href="#">Privacy Policy</a> | Design by: <a
+                    href="">AASY@yahoo.com</a></p>
+        </div>
+        <div class="clear"></div>
+    </div>
+</footer>
+</body>
+</html>

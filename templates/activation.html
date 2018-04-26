@@ -1,0 +1,12 @@
+<h1>hi {{ user }}</h1>
+<h3>your account has been created successfully and you have to enter the code sent to your email to activate it</h3>
+<form method="post" >
+    {% csrf_token %}
+    {% if user.is_active %}
+    <input name="username" value="{{ user.username }}" type="text">
+    {% else %}
+    <input name="username" placeholder="username" type="text">
+    {% endif %}
+    <input name="code" placeholder="please enter the code" type="text">
+    <button type="submit">activate!</button>
+</form>

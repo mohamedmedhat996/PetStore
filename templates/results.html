@@ -1,0 +1,109 @@
+{% extends 'Base.html' %}
+{% load static %}
+{% block body %}
+
+    <head>
+        <style>
+
+ .image {
+            position: relative;
+            display: inline-block;
+        }
+
+        .overlay {
+            display: none;
+        }
+
+        .image:hover .overlay {
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, .5);
+            position: absolute;
+            top: 0;
+            left: 0;
+            text-align: center;
+            display: inline-block;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+        }
+
+        img {
+            vertical-align: top;
+        }
+
+        h4 {
+            color: #cccccc;
+            font-weight: bold;
+
+        }
+
+        input {
+            display: inline-block;
+            margin-left: 5px;
+            margin-right: 2px;
+
+        }
+
+        h3 {
+            display: inline-block;
+            color: #0f0f0f;
+            font-weight: bold;
+            font-size: 20px;
+        }
+
+        .cc {
+            background-color: #4585B7;
+            border: none;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+        }
+
+        .font {
+            display: block;
+            font-size: 20px;
+            color: white;
+            font-weight: bold;
+
+        }
+
+        .my_grid {
+            margin-top: 5%;
+            margin-bottom: 5%;
+        }
+
+
+        </style>
+    </head>
+    <div class="container">
+        <div style="margin-top: 10% ;margin-bottom: 10%">
+            <h2 style=" margin-bottom: 5%">Search results :</h2>
+   <div class="my_grid">
+            {% for pet in results %}
+                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-6">
+                    <div style="margin: 4px;display: inline-block ;">
+                        <div class="image"><img src="{{ pet.image }}" alt="" width="200" height="200">
+                            <a href="/search/details/{{ pet.pk }}">
+                                <div class="overlay">
+                                    <h3 class="font">{{ pet.category.category }}</h3><br>
+                                    <h3 class="font">{{ pet.kind.kind }}</h3><br>
+                                    <h3 class="font"> {{ pet.age }}</h3><br>
+                                    <button class="cc">ViewDetails</button>
+                                </div>
+                            </a>
+
+
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}

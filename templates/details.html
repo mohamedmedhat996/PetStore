@@ -1,0 +1,174 @@
+{% extends 'Base.html' %}
+{% load static %}
+{% block body %}
+    <head>
+        <style>
+            h2 {
+                font-size: 35px;
+                line-height: 39px;
+            }
+
+            .font {
+                font-weight: normal;
+                font-family: 'Paprika', cursive;;
+
+                color: #4585b7;
+                font-size: 25px;
+                line-height: 29px;
+                display: inline-block;
+                padding-top: 10px;
+                padding-bottom: 2px;
+                margin-bottom: 3px;
+
+            }
+
+            .fon {
+                font-weight: normal;
+                font-family: 'Paprika', cursive;;
+
+                font-size: 25px;
+                line-height: 29px;
+                display: inline-block;
+                padding-top: 10px;
+                padding-bottom: 2px;
+                margin-bottom: 3px;
+
+            }
+
+            img {
+                float: right;
+
+            }
+            input,
+input::-webkit-input-placeholder {
+    font-size: 16px;
+    line-height: 3;
+}
+        </style>
+    </head>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                <h2> Pet details :</h2>
+                <table>
+                    <tr>
+                        <td><h3 class="font"> State</h3></td>
+                        {% if pet.state == 'sold' %}
+                        <td><h3 class="fon" style="color: red">:{{ pet.state }}</h3></td>
+                        {% else %}
+                        <td><h3 class="fon" style="color: green">:{{ pet.state }}</h3></td>
+                        {% endif %}
+                    </tr>
+                    <tr>
+                        <td><h3 class="font"> Category</h3></td>
+                        <td><h3 class="fon">:{{ pet.category.category }}</h3></td>
+                    </tr>
+                    <tr>
+                        <td><h3 class="font"> breed</h3></td>
+                        <td><h3 class="fon">:{{ pet.kind.kind }}</h3></td>
+                    </tr>
+                    <tr>
+                        <td><h3 class="font"> Age</h3></td>
+                        <td><h3 class="fon">:{{ pet.age }} month</h3></td>
+                    </tr>
+                    <tr>
+                        <td><h3 class="font"> Price</h3></td>
+                        <td><h3 class="fon">:{{ pet.price }} $</h3></td>
+                    </tr>
+                </table>
+                <br><br>
+
+                <h2>History records :</h2>
+                {% for record in records %}
+                    <table>
+                        <tr>
+                            <td><h3 class="font">Date </h3></td>
+                            <td><h3 class="fon">{{ record.date }}</h3></td>
+                        </tr>
+                        <tr>
+                            <td><h3 class="font">Description : </h3></td>
+                            <td><h3 class="fon">{{ record.description }}</h3></td>
+                        </tr>
+                        <tr>
+                            <td><h3 class="font">veterinary name : </h3></td>
+                            <td><h3 class="fon">{{ record.veterinary }}</h3></td>
+                        </tr>
+                    </table>
+                {% endfor %}
+
+                <h2> Comments :</h2>
+                {% for comment in comments %}
+                    {% if comment.user.pk == user.pk %}
+                        <table>
+                            <tr>
+                                <td><h3 class="font">{{ comment.user.username }} : </h3></td>
+                                <td><h3 class="fon"> {{ comment.body }}</h3></td>
+                            </tr>
+                        </table>
+                        <form action="/search/details/addcomment/{{ pet.pk }}/{{ comment.pk }}/" method="post">
+                            {% csrf_token %}
+                            <button type="submit" style="color: red;">delete comment</button>
+                        </form>
+                    {% else %}
+                        <table>
+                            <tr>
+                                <td><h3 class="font">{{ comment.user.username }} : </h3></td>
+                                <td><h3 class="fon"> {{ comment.body }}</h3></td>
+                            </tr>
+                        </table>
+                    {% endif %}
+                {% endfor %}
+                    <br>
+                {% if user.is_active %}
+                    <h2> Leave a comment : </h2>
+                    <div style="margin-bottom: 20px;">
+                    <form action="/search/details/addcomment/{{ pet.pk }}/1/" method="get">
+                        <textarea name="body" placeholder="write a comment" style=" width: 500px; height: 50px"></textarea>
+                        <br>
+                        <input type="submit" value="add" style="width:500px; background-color: #4585b7;border: none;">
+                    </form>
+                {% else %}
+                    <h2> Leave a comment : </h2>
+                    <div style="margin-bottom: 20px;">
+                    <form action="/home/login" method="get">
+                        <textarea name="body" placeholder="write a comment" style=" width: 500px; height: 50px"></textarea>
+                        <br>
+                        <input type="submit" value="add" style="width:500px; background-color: #4585b7;border: none;">
+                    </form>
+                {% endif %}
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 " style="margin-top: 7%">
+
+                <div style="margin: 7px;display: inline-block">
+                    <img src="{{ pet.image }}" width="300" height="300" style="">
+                    {% if user is not None %}
+                    <form action="/search/verify/{{ pet.pk }}/" method="get">
+                        <button type="submit" style="width: 100%;   background-color: #4585B7;border: none; color: white ">buy</button>
+                    </form>
+                    {% else %}
+                    <form action="/home/login/">
+                        <button style="width: 100%;   background-color: #4585B7;border: none;color: white ">buy</button>
+                    </form>
+                    {% endif %}
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="bottom_block" style="position: relative">
+        <div class="container_12">
+            <div class="grid_6">
+                <h2> Any Questions </h2>
+                <br>
+                <div class="cont"> Call Us Free: <span>+1 800 559 6580</span> <span>+1 800 559 6580</span> <span>+1 800 559 6580</span>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+    </div>
+
+{% endblock %}

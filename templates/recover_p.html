@@ -1,0 +1,7 @@
+<h1>horaaaaaay enter your new pass word</h1>
+<form method="post">
+    {% csrf_token %}
+    <input name="password" type="password">
+    <input name="password_conf" type="password">
+    <input type="submit" value="submit">
+</form>

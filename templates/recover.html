@@ -1,0 +1,10 @@
+{% if notifications is not None %}
+<h1 style="color: green">{{ notifications }}</h1>
+{% else %}
+<h3>please enter the email you registered with and we will send you an email containing your password</h3>
+<form method="post">
+    {% csrf_token %}
+    <input name="email" placeholder="enter your email" type="text">
+    <button type="submit">submit</button>
+</form>
+{% endif %}

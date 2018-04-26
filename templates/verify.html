@@ -1,0 +1,134 @@
+{% extends 'Base.html' %}
+{% load static %}
+{% block body %}
+    <head>
+        <style>
+                               h2
+            {
+                font-size: 35px;
+	line-height: 39px;
+            }
+            .font
+            {
+              	font-weight: normal;
+	font-family: 'Paprika', cursive;;
+
+                color: #4585b7;
+	font-size: 25px;
+	line-height: 29px;
+	display: inline-block;
+	padding-top: 10px;
+	padding-bottom: 2px;
+	margin-bottom: 3px;
+
+            }
+            .fon{
+              	font-weight: normal;
+	font-family: 'Paprika', cursive;;
+
+
+	font-size: 25px;
+	line-height: 29px;
+	display: inline-block;
+	padding-top: 10px;
+	padding-bottom: 2px;
+	margin-bottom: 3px;
+
+            }
+        input {
+            margin-bottom: 10px;
+            width: 500px;
+            height: 30px;
+            display: block;
+        }
+
+        </style>
+    </head>
+    <div class="container">
+    <div class="row">
+    <div style="margin: 10%20%">
+        <h2>Product info : </h2>
+        <table>
+            <tr><td><h3 class="font">Category</h3></td><td><h3 class="fon">:{{ pet.category.category }}</h3></td></tr>
+            <tr><td><h3 class="font">breed </h3></td><td><h3  class="fon">:{{ pet.kind.kind }}</h3></td></tr>
+            <tr><td><h3 class="font">Age </h3></td>><td><h3 class="fon">:{{ pet.age }} month</h3></td></tr>
+            <tr><td><h3 class="font">Price </h3></td><td><h3 class="fon">:{{ pet.price }} $</h3></td></tr>
+        </table>
+        <br>
+        <div class="row">
+            <h2>Payment Info :</h2>
+            <h3 style="color: red">{{ error }}</h3>
+            <form action="/search/verify/{{ pet.pk }}/" method="post">
+                {% csrf_token %}
+                <input name="type" type="text" placeholder=" Enter payment method here ...">
+                <input name="number" type="text" placeholder="Enter number here ....">
+                <input name="password" type="password" placeholder="Enter  password here ....">
+                <input type="submit" value="buy" style="background-color: #4585b7 ;border: none;">
+            </form>
+        </div>
+    </div>
+    </div>
+    </div>
+    <div class="bottom_block" style="position: relative">
+    <div class="container_12">
+        <div class="grid_6">
+            <h2> Any Questions </h2>
+            <br>
+             <div class="cont"> Call Us Free: <span>+1 800 559 6580</span> <span>+1 800 559 6580</span> <span>+1 800 559 6580</span> </div>
+
+        </div>
+
+    </div>
+</div>
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- <head>
+</head>
+<body>
+
+    <h1 style="color: blue">{{ notification }}</h1>
+    <h1>you are about to buy : </h1>
+    <h3>{{ pet.category.category }}</h3>
+    <h3>{{ pet.kind.kind }}</h3>
+    <h3>{{ pet.age }} years</h3>
+    <h3>{{ pet.price }} $</h3>
+    <h3>please verify your payment method</h3>
+    <h3 style="color: red">{{ error }}</h3>
+    <form action="/search/verify/{{ user.pk }}/{{ pet.pk }}/" method="post">
+        {% csrf_token %}
+        <input name="type" type="text" placeholder="payment method">
+        <input name="number" type="text" placeholder="number">
+        <input name="password" type="password" placeholder="password">
+        <button type="submit">buy</button>
+    </form>
+
+</body>--!>

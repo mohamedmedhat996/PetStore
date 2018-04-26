@@ -1,0 +1,64 @@
+{% extends 'Base.html' %}
+{% load static %}
+{% block body %}
+
+    <head>
+        <style>
+            input {
+                margin-bottom: 10px;
+                width: 500px;
+                height: 30px;
+                display: block;
+            }
+
+            label {
+                font-size: 20px;
+            }
+            .fon{
+              	font-weight: normal;
+	            font-family: 'Paprika', cursive;
+                font-size: 25px;
+                line-height: 29px;
+                display: inline-block;
+                padding-top: 10px;
+                padding-bottom: 2px;
+                margin-bottom: 3px;
+            }
+
+        </style>
+    </head>
+    <div class=" container ">
+
+        <div style="margin :10% 22%;width:75%;text-align:left">
+            <h2>Contact US...!</h2>
+            <h3 style="color: red">{{ error }}</h3>
+
+            <form method="post">
+                {% csrf_token %}
+                <h3 class="fon">*User name:</h3>
+                {% if user.is_active %}
+                    <input name="username" value="{{ user.username }}" type="text" required>
+                {% else %}
+                    <input name="username" type="text" placeholder="enter user name" required>
+                {% endif %}
+
+                <h3 class="fon">*E-mail:</h3>
+                {% if user.is_active %}
+                    <input name="email" type="email" value="{{ user.email }}" placeholder="enter e-mail" required>
+                {% else %}
+                    <input name="email" type="email" value="{{ user.email }}" placeholder="enter e-mail" required>
+                {% endif %}
+
+                <h3 class="fon">Phone number:</h3>
+                <input name="password" type="number" placeholder="enter phone number" >
+
+                <h3 class="fon"> *Leave a Message</h3>
+                <textarea name="message" style="width:500px; height: 300px; display: block" placeholder="Leave your message here " required></textarea>
+
+                <input type="submit" value="Send" style=" background-color:#4585b7 ;border: none; font-size: 20px">
+            </form>
+
+        </div>
+    </div>
+
+{% endblock %}
