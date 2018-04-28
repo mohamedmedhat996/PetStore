@@ -36,19 +36,19 @@ input::-webkit-input-placeholder {
                 <nav>
                     {% if user.is_active %}
                     <ul class="sf-menu">
-                       <li class=""><a href="/index/">Home</a></li>
-            <li class=""><a href="">About us</a></li>
-            <li class=""><a href="/home/profile/">{{ user.username }}</a></li>
-            <li class=""><a href="/home/logout/">log out</a></li>
-            <li class=""><a href="/contactus/">contact us</a></li>
+                        <li class=""><a href="/index/">Home</a></li>
+                        <li class=""><a href="">About us</a></li>
+                        <li class=""><a href="/home/profile/">{{ user.first_name }} {{ user.last_name }}</a></li>
+                        <li class=""><a href="/home/logout/">log out</a></li>
+                        <li class=""><a href="/contactus/">contact us</a></li>
                     </ul>
-                        {% else %}
-                        <ul class="sf-menu">
-                     <li class=""><a href="/index/">Home</a></li>
-            <li class=""><a href="/aboutus/">About us</a></li>
-            <li class=""><a href="/home/login/">Login</a></li>
-            <li class=""><a href="/home/signup">Sign up</a></li>
-            <li class=""><a href="/contactus/">contact us</a></li>
+                    {% else %}
+                    <ul class="sf-menu">
+                        <li class=""><a href="/index/">Home</a></li>
+                        <li class=""><a href="/aboutus/">About us</a></li>
+                        <li class=""><a href="/home/login/">Login</a></li>
+                        <li class=""><a href="/home/signup">Sign up</a></li>
+                        <li class=""><a href="/contactus/">contact us</a></li>
                     </ul>
                     {% endif %}
                 </nav>

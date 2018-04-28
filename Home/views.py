@@ -3,7 +3,6 @@ from django.contrib.auth import authenticate, login, logout
 from django.core.mail import send_mail
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
-
 from Home.forms import UserForm
 from Home.models import Person, PaymentMethod, Pet, PetCategory, PetCategoryKind
 from Search.models import RecentSearch
@@ -28,21 +27,16 @@ def index(request):
 
 def login_f(request):
     if request.method == 'GET':
-
         return render(request, 'login.html')
-
     else:
-
         username = request.POST.__getitem__('username')
         password = request.POST.__getitem__('password')
-        user = authenticate(username=username, password=password)
+        user = authenticate(request, username=username, password=password)
 
         if user is not None:
-            if user.is_active:
-                login(request, user)
-                return redirect('/index/')
-
-        return render(request, "login.html", {'error': 'wrong email or password'})
+            login(request, user)
+            return redirect('/index/')
+        return render(request, "login.html", {'error': 'wrong user name or password'})
 
 
 def logout_f(request):
@@ -110,6 +104,7 @@ def activate(request):
             if str(user.code) == str(code):
                 user.is_active = True
                 user.save()
+                login(request, user)
                 return redirect('/')
         return HttpResponse('<h1>user does not exist</h1>')
     else:
@@ -122,6 +117,7 @@ def activate_u(request, user_pk, code):
         if str(user.code) == str(code):
             user.is_active = True
             user.save()
+            login(request, user)
             return redirect('/')
     return HttpResponse('<h1>user does not exist</h1>')
 

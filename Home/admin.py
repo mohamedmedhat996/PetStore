@@ -1,5 +1,4 @@
 from django.contrib import admin
-
 from Home.models import Pet, PaymentMethod, PetCategory, PetCategoryKind, HistoryRecord
 
 admin.site.register(Pet)
