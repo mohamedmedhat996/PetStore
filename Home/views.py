@@ -17,22 +17,18 @@ def index(request):
     except:
         user = None
 
-    with connection.cursor() as cursor:
-        cursor.execute("SELECT * FROM Search_recentsearch WHERE user_id= %s",[request.user.id])
-        recent_searches = cursor.fetchall()
+    cursor = connection.cursor()
+    cursor.execute("SELECT * FROM Search_recentsearch WHERE user_id= %s",[request.user.id])
+    recent_searches = cursor.fetchall()
 
     context = {
         'user': user,
-        #'Pets': Pet.objects.all(),
         'Pets': list(Pet.objects.raw("SELECT * FROM Home_pet")),
-        #'recent_searches': RecentSearch.objects.filter(user=user),
-        "recent_searches":recent_searches ,
-        #'categories': PetCategory.objects.all(),
+        # 'recent_searches': RecentSearch.objects.filter(user=user),
+        'recent_searches': recent_searches,
         'categories': list(PetCategory.objects.raw("SELECT * FROM Home_petcategory")),
-        #'kinds': PetCategoryKind.objects.all(),
         'kinds': list(PetCategoryKind.objects.raw("SELECT * FROM Home_petcategorykind")),
     }
-    print (context)
     return render(request, 'index.html', context)
 
 
@@ -40,8 +36,8 @@ def login_f(request):
     if request.method == 'GET':
         return render(request, 'login.html')
     else:
-        username = request.POST.__getitem__('username')
-        password = request.POST.__getitem__('password')
+        username = request.POST['username']
+        password = request.POST['password']
         user = authenticate(request, username=username, password=password)
 
         if user is not None:
@@ -56,19 +52,18 @@ def logout_f(request):
 
 
 def profile(request):
+    username = request.user.username
+    id = request.user.id
     try:
-        user = Person.objects.get(username=request.user)
+        user = Person.objects.get(username=username)
+
     except:
         user = None
-    with connection.cursor() as cursor:
-        cursor.execute("SELECT * FROM Home_paymentmethod WHERE user_id = %s", [request.user.id])
-        PaymentMethods = list(cursor.fetchall())
+
     context = {
         'user': user,
-        #'PaymentMethods': PaymentMethods
-        'PaymentMethods': PaymentMethod.objects.filter(user=user)
+        'PaymentMethods': PaymentMethod.objects.raw("SELECT * FROM Home_paymentmethod WHERE user_id = %s", [id])
     }
-    print (context)
     return render(request, 'profile.html', context)
 
 
@@ -139,10 +134,9 @@ def activate_u(request, user_pk, code):
 
 
 def delete(request):
-    user = Person.objects.get(username=request.user)
-    #RecentSearch.objects.filter(user=user).delete()
+    id = request.user.id
     with connection.cursor() as cursor:
-        cursor.execute("DELETE FROM Search_recentsearch WHERE user_id= %s",[request.user.id])
+        cursor.execute("DELETE FROM Search_recentsearch WHERE user_id= %s",[id])
     return redirect('/index/')
 
 
@@ -160,7 +154,6 @@ def addpaymentmethod(request, number):
     else:
         user = Person.objects.get(username=request.user)
         if user.is_active:
-            #PaymentMethod.objects.get(user=user, number=number).delete()
             with connection.cursor() as cursor:
                 cursor.execute("DELETE FROM Home_paymentmethod WHERE number=number AND user_id= %s", [request.user.id])
             return redirect('/home/profile/')
@@ -225,11 +218,12 @@ def contact_us(request):
 
     else:
         try:
-            print(request.POST.__getitem__('username'))
-            user = Person.objects.get(username=request.POST.__getitem__('username'))
+            username = request.POST['username']
+            user = Person.objects.get(username=username)
+            # user = Person.objects.raw("SELECT * FROM Home_person , auth_user WHERE user_ptr_id = auth_user.id AND username=%s", [username])
             print(user)
-            message = request.POST.__getitem__('message')
-            email = request.POST.__getitem__('email')
+            message = request.POST['message']
+            email = request.POST['email']
             subject = 'contact us: from: ' + user.username
             send_mail(subject, message, 'thepetstore770@gmail.com', ['thepetstore770@gmail.com'], fail_silently=False)
             return redirect('/index/')
