@@ -12,16 +12,21 @@ def index(request):
     if request.path == '/':
         return redirect('/index/')
     try:
-        user = Person.objects.get(username=request.user)
+        user = request.user
     except:
         user = None
     context = {
         'user': user,
-        'Pets': Pet.objects.all(),
-        'recent_searches': RecentSearch.objects.filter(user=user),
-        'categories': PetCategory.objects.all(),
-        'kinds': PetCategoryKind.objects.all(),
+        #'Pets': Pet.objects.all(),
+        'Pets': list(Pet.objects.raw("SELECT * FROM Home_pet")),
+        #'recent_searches': RecentSearch.objects.filter(user=user),
+        'recent_searches': RecentSearch.objects.raw("SELECT * FROM Search_recentsearch WHERE user_id= %s",[user.id]),
+        #'categories': PetCategory.objects.all(),
+        'categories': list(PetCategory.objects.raw("SELECT * FROM Home_petcategory")),
+        #'kinds': PetCategoryKind.objects.all(),
+        'kinds': list(PetCategoryKind.objects.raw("SELECT * FROM Home_petcategorykind")),
     }
+    print (context)
     return render(request, 'index.html', context)
 
 
