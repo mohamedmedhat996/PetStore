@@ -20,11 +20,9 @@ def index(request):
     cursor = connection.cursor()
     cursor.execute("SELECT * FROM Search_recentsearch WHERE user_id= %s",[request.user.id])
     recent_searches = cursor.fetchall()
-
     context = {
         'user': user,
         'Pets': list(Pet.objects.raw("SELECT * FROM Home_pet")),
-        # 'recent_searches': RecentSearch.objects.filter(user=user),
         'recent_searches': recent_searches,
         'categories': list(PetCategory.objects.raw("SELECT * FROM Home_petcategory")),
         'kinds': list(PetCategoryKind.objects.raw("SELECT * FROM Home_petcategorykind")),
@@ -55,8 +53,11 @@ def profile(request):
     username = request.user.username
     id = request.user.id
     try:
-        user = Person.objects.get(username=username)
-
+        #user = Person.objects.get(username=username)
+        cursor = connection.cursor()
+        cursor.execute("SELECT id FROM auth_user WHERE username = %s", [username])
+        id_t = list(cursor.fetchone())[0]
+        user = list(Person.objects.raw("SELECT * FROM Home_person WHERE user_ptr_id = %s", [id_t]))[0]
     except:
         user = None
 
@@ -108,9 +109,15 @@ def signup(request):
 
 def activate(request):
     if request.method == 'POST':
-        code = request.POST.__getitem__('code')
-        username = request.POST.__getitem__('username')
-        user = Person.objects.get(username=username)
+        code = request.POST['code']
+        username = request.POST['username']
+
+        # user = Person.objects.get(username=username)
+        cursor = connection.cursor()
+        cursor.execute("SELECT id FROM auth_user WHERE username = %s", [username])
+        id_t = list(cursor.fetchone())[0]
+        user = list(Person.objects.raw("SELECT * FROM Home_person WHERE user_ptr_id = %s", [id_t]))[0]
+
         if user is not None:
             if str(user.code) == str(code):
                 user.is_active = True
@@ -123,7 +130,13 @@ def activate(request):
 
 
 def activate_u(request, user_pk, code):
-    user = Person.objects.get(pk=user_pk)
+
+    # user = Person.objects.get(pk=user_pk)
+    cursor = connection.cursor()
+    cursor.execute("SELECT id FROM auth_user WHERE id = %s", [user_pk])
+    id_t = list(cursor.fetchone())[0]
+    user = list(Person.objects.raw("SELECT * FROM Home_person WHERE user_ptr_id = %s", [id_t]))[0]
+
     if user is not None:
         if str(user.code) == str(code):
             user.is_active = True
@@ -141,21 +154,33 @@ def delete(request):
 
 
 def addpaymentmethod(request, number):
+    username = request.user.username
+    id = request.user.id
     if request.method == 'POST':
-        user = Person.objects.get(username=request.user)
+
+        cursor = connection.cursor()
+        cursor.execute("SELECT id FROM auth_user WHERE username = %s", [username])
+        id_t = list(cursor.fetchone())[0]
+        user = list(Person.objects.raw("SELECT * FROM Home_person WHERE user_ptr_id = %s", [id_t]))[0]
+
         if user.is_active:
-            type = request.POST.__getitem__('type')
-            number = request.POST.__getitem__('number')
+            type = request.POST['type']
+            number = request.POST['number']
             payment_method = PaymentMethod(user=user, type=type, number=number)
             payment_method.save()
             return redirect('/home/profile/')
 
         return redirect('/home/profile/')
     else:
-        user = Person.objects.get(username=request.user)
+
+        cursor = connection.cursor()
+        cursor.execute("SELECT id FROM auth_user WHERE username = %s", [username])
+        id_t = list(cursor.fetchone())[0]
+        user = list(Person.objects.raw("SELECT * FROM Home_person WHERE user_ptr_id = %s", [id_t]))[0]
+
         if user.is_active:
             with connection.cursor() as cursor:
-                cursor.execute("DELETE FROM Home_paymentmethod WHERE number=number AND user_id= %s", [request.user.id])
+                cursor.execute("DELETE FROM Home_paymentmethod WHERE number=%s AND user_id= %s", [number, id])
             return redirect('/home/profile/')
         return redirect('/home/profile/')
 
@@ -209,19 +234,26 @@ def recover_p(request, user_pk, code):
 
 
 def contact_us(request):
+    username = request.user.username
     if request.method == 'GET':
         try:
-            user = Person.objects.get(username=request.user)
+
+            cursor = connection.cursor()
+            cursor.execute("SELECT id FROM auth_user WHERE username = %s", [username])
+            id_t = list(cursor.fetchone())[0]
+            user = list(Person.objects.raw("SELECT * FROM Home_person WHERE user_ptr_id = %s", [id_t]))[0]
         except:
             user = None
         return render(request, 'contactus.html', {'user': user})
 
     else:
         try:
-            username = request.POST['username']
-            user = Person.objects.get(username=username)
-            # user = Person.objects.raw("SELECT * FROM Home_person , auth_user WHERE user_ptr_id = auth_user.id AND username=%s", [username])
-            print(user)
+
+            cursor = connection.cursor()
+            cursor.execute("SELECT id FROM auth_user WHERE username = %s", [username])
+            id_t = list(cursor.fetchone())[0]
+            user = list(Person.objects.raw("SELECT * FROM Home_person WHERE user_ptr_id = %s", [id_t]))[0]
+
             message = request.POST['message']
             email = request.POST['email']
             subject = 'contact us: from: ' + user.username
