@@ -6,6 +6,7 @@ from django.shortcuts import redirect, render
 from Home.forms import UserForm
 from Home.models import Person, PaymentMethod, Pet, PetCategory, PetCategoryKind
 from Search.models import RecentSearch
+from django.db import connection
 
 
 def index(request):
@@ -15,12 +16,17 @@ def index(request):
         user = request.user
     except:
         user = None
+
+    with connection.cursor() as cursor:
+        cursor.execute("SELECT * FROM Search_recentsearch WHERE user_id= %s",[request.user.id])
+        recent_searches = cursor.fetchall()
+
     context = {
         'user': user,
         #'Pets': Pet.objects.all(),
         'Pets': list(Pet.objects.raw("SELECT * FROM Home_pet")),
         #'recent_searches': RecentSearch.objects.filter(user=user),
-        'recent_searches': RecentSearch.objects.raw("SELECT * FROM Search_recentsearch WHERE user_id= %s",[user.id]),
+        "recent_searches":recent_searches ,
         #'categories': PetCategory.objects.all(),
         'categories': list(PetCategory.objects.raw("SELECT * FROM Home_petcategory")),
         #'kinds': PetCategoryKind.objects.all(),
@@ -54,10 +60,15 @@ def profile(request):
         user = Person.objects.get(username=request.user)
     except:
         user = None
+    with connection.cursor() as cursor:
+        cursor.execute("SELECT * FROM Home_paymentmethod WHERE user_id = %s", [request.user.id])
+        PaymentMethods = list(cursor.fetchall())
     context = {
         'user': user,
+        #'PaymentMethods': PaymentMethods
         'PaymentMethods': PaymentMethod.objects.filter(user=user)
     }
+    print (context)
     return render(request, 'profile.html', context)
 
 
@@ -129,7 +140,9 @@ def activate_u(request, user_pk, code):
 
 def delete(request):
     user = Person.objects.get(username=request.user)
-    RecentSearch.objects.filter(user=user).delete()
+    #RecentSearch.objects.filter(user=user).delete()
+    with connection.cursor() as cursor:
+        cursor.execute("DELETE FROM Search_recentsearch WHERE user_id= %s",[request.user.id])
     return redirect('/index/')
 
 
@@ -147,7 +160,9 @@ def addpaymentmethod(request, number):
     else:
         user = Person.objects.get(username=request.user)
         if user.is_active:
-            PaymentMethod.objects.get(user=user, number=number).delete()
+            #PaymentMethod.objects.get(user=user, number=number).delete()
+            with connection.cursor() as cursor:
+                cursor.execute("DELETE FROM Home_paymentmethod WHERE number=number AND user_id= %s", [request.user.id])
             return redirect('/home/profile/')
         return redirect('/home/profile/')
 

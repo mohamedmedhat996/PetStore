@@ -1,6 +1,5 @@
 from django.contrib.auth import authenticate
 from django.shortcuts import render, redirect
-
 from Home.models import Person, Pet, HistoryRecord, PaymentMethod, PetCategory, PetCategoryKind
 from Search.models import RecentSearch, Comment
 
