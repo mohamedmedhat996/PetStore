@@ -6,7 +6,7 @@
 # Authenticated users can buy pets and add comments. 
 # Every pet has age, price, arrival date and history records. 
 # Every pet associated with veterinary Project. 
-#Description: 
+# Description: 
 # Pet store offers the ultimate pet shop experience. We have all the pet supplies, pet food, toys and accessories you and your pet needs at great prices. 
 # Software used: 
 # Django Framework 
